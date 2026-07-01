@@ -3,10 +3,6 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Log in (obtain access token)
-      community.okd.openshift_auth:
-        username: kubeadmin
-        password: EUHRI-dUCZs-pota8-G5XYf
     - name: Create namespaces
       kubernetes.core.k8s:
         name: testing

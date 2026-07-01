@@ -5,7 +5,7 @@
   tasks:
     - name: Create namespaces
       kubernetes.core.k8s:
-        name: testing
+        name: aaa-testing
         api_version: v1
         kind: Namespace
         state: present

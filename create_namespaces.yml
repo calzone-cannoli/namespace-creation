@@ -21,3 +21,36 @@
     - name: Print out secondary owner
       ansible.builtin.debug:
         var: secondary_owner
+
+    - name: Set size dq xs
+      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Extra Small"
+      ansible.builtin.debug:
+        msg: "Dev/QA XS"
+    - name: Set size dq s
+      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Small"
+      ansible.builtin.debug:
+        msg: "Dev/QA S"
+    - name: Set size dq m
+      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Medium"
+      ansible.builtin.debug:
+        msg: "Dev/QA M"
+    - name: Set size dq l
+      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Large"
+      ansible.builtin.debug:
+        msg: "Dev/QA L"
+    - name: Set size sp xs
+      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Extra Small"
+      ansible.builtin.debug:
+        msg: "Stage/Prod XS"
+    - name: Set size sp s
+      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Small"
+      ansible.builtin.debug:
+        msg: "Stage/Prod S"
+    - name: Set size sp m
+      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Medium"
+      ansible.builtin.debug:
+        msg: "Stage/Prod M"
+    - name: Set size sp l
+      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Large"
+      ansible.builtin.debug:
+        msg: "Stage/Prod L"

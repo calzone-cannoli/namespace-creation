@@ -103,3 +103,21 @@
           - "CPU Limit: {{ cpu_limit }}"
           - "Memory Request: {{ mem_req }}"
           - "Memory Limit: {{ mem_limit }}"
+
+    - name: Create Resource Quota
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ResourceQuota
+          metadata:
+            name: resource-quota
+            namespace: "{{ tenant_id }}"
+          spec:
+            hard:
+              requests.cpu: "{{ cpu_req }}"
+              requests.memory: "{{ mem_req }}"
+              limits.cpu: "{{ cpu_limit }}"
+              limits.memory: "{{ mem_limit }}"
+              pods: "{{ pod_quota }}"
+              services: "{{ services_quota }}"

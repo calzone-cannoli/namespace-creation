@@ -30,7 +30,7 @@
         cpu_req: 500m
         cpu_limit: 1000m
         mem_req: 4Gi
-        mem_lim: 8Gi
+        mem_limit: 8Gi
     - name: Set size dq s
       when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Small"
       ansible.builtin.set_fact:
@@ -39,7 +39,7 @@
         cpu_req: 1000m
         cpu_limit: 3000m
         mem_req: 8Gi
-        mem_lim: 16Gi
+        mem_limit: 16Gi
     - name: Set size dq m
       when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Medium"
       ansible.builtin.set_fact:
@@ -48,7 +48,7 @@
         cpu_req: 3000m
         cpu_limit: 6000m
         mem_req: 12Gi
-        mem_lim: 24Gi
+        mem_limit: 24Gi
     - name: Set size dq l
       when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Large"
       ansible.builtin.set_fact:
@@ -57,7 +57,7 @@
         cpu_req: 6000m
         cpu_limit: 9000m
         mem_req: 16Gi
-        mem_lim: 32Gi
+        mem_limit: 32Gi
     - name: Set size sp xs
       when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Extra Small"
       ansible.builtin.set_fact:
@@ -66,7 +66,7 @@
         cpu_req: 1000m
         cpu_limit: 2000m
         mem_req: 8Gi
-        mem_lim: 16Gi
+        mem_limit: 16Gi
     - name: Set size sp s
       when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Small"
       ansible.builtin.set_fact:
@@ -75,7 +75,7 @@
         cpu_req: 3000m
         cpu_limit: 6000m
         mem_req: 12Gi
-        mem_lim: 24Gi
+        mem_limit: 24Gi
     - name: Set size sp m
       when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Medium"
       ansible.builtin.set_fact:
@@ -84,7 +84,7 @@
         cpu_req: 6000m
         cpu_limit: 9000m
         mem_req: 16Gi
-        mem_lim: 32Gi
+        mem_limit: 32Gi
     - name: Set size sp l
       when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Large"
       ansible.builtin.set_fact:
@@ -93,4 +93,13 @@
         cpu_req: 9000m
         cpu_limit: 18000m
         mem_req: 32Gi
-        mem_lim: 64Gi
+        mem_limit: 64Gi
+    - name: Print size quotas
+      ansible.builtin.debug:
+        var:
+          - pod_quota
+          - services_quota
+          - cpu_req
+          - cpu_limit
+          - mem_req
+          - mem_limit

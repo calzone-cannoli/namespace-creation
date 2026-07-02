@@ -96,10 +96,10 @@
         mem_limit: 64Gi
     - name: Print size quotas
       ansible.builtin.debug:
-        var:
-          - pod_quota
-          - services_quota
-          - cpu_req
-          - cpu_limit
-          - mem_req
-          - mem_limit
+        msg:
+          - "pods: {{ pod_quota }}"
+          - "services: {{ services_quota }}"
+          - "CPU Request: {{ cpu_req }}"
+          - "CPU Limit: {{ cpu_limit }}"
+          - "Memory Request: {{ mem_req }}"
+          - "Memory Limit: {{ mem_limit }}"

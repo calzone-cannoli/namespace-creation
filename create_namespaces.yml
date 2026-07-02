@@ -3,12 +3,15 @@
   hosts: localhost
   gather_facts: false
   tasks:
+    #### Create namespace (TODO: role)
     - name: Create namespace
       kubernetes.core.k8s:
         name: "{{ tenant_id }}"
         api_version: v1
         kind: Namespace
         state: present
+
+    #### Print statements to check vars
     - name: Print out env
       ansible.builtin.debug:
         var: tenant_env
@@ -22,6 +25,7 @@
       ansible.builtin.debug:
         var: secondary_owner
 
+    #### Set ResourceQuota Sizes (TODO: role)
     - name: Set size dq xs
       when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Extra Small"
       ansible.builtin.set_fact:
@@ -104,6 +108,7 @@
           - "Memory Request: {{ mem_req }}"
           - "Memory Limit: {{ mem_limit }}"
 
+    #### Create ResourceQuota (TODO: role)
     - name: Create Resource Quota
       kubernetes.core.k8s:
         state: present
@@ -121,3 +126,38 @@
               limits.memory: "{{ mem_limit }}"
               pods: "{{ pod_quota }}"
               services: "{{ services_quota }}"
+
+    #### Create RoleBindings (TODO: role)
+    - name: Create Role Binding for Dev/QA
+      when: tenant_env in ['Dev', 'QA']
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: RoleBinding
+          metadata:
+            name: admin-rb
+            namespace: "{{ tenant_id }}"
+          subjects:
+          - kind: Group
+            name: openshift.devops.users
+            apiGroup: rbac.authorization.k8s.io
+          - kind: Group
+            name: openshift.middleware.users
+            apiGroup: rbac.authorization.k8s.io
+          - kind: Group
+            name: openshift.dev.login.users
+            apiGroup: rbac.authorization.k8s.io
+          - kind: Group
+            name: openshift.${tenant}${env}.admin.users
+            apiGroup: rbac.authorization.k8s.io
+          - kind: Group
+            name: openshift.${tenant}${env}.login.users
+            apiGroup: rbac.authorization.k8s.io
+          - kind: User
+            name: system:serviceaccount:ucd-agent:ucd
+            apiGroup: rbac.authorization.k8s.io
+          roleRef:
+            kind: ClusterRole
+            name: admin
+            apiGroup: rbac.authorization.k8s.io

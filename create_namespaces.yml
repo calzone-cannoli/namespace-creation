@@ -3,9 +3,21 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Create namespaces
+    - name: Create namespace
       kubernetes.core.k8s:
-        name: "{{ app_name }}"
+        name: "{{ tenant_id }}"
         api_version: v1
         kind: Namespace
         state: present
+    - name: Print out env
+      ansible.builtin.debug:
+        var: tenant_env
+    - name: Print out size
+      ansible.builtin.debug:
+        var: tenant_shirt_size
+    - name: Print out primary owner
+      ansible.builtin.debug:
+        var: primary_owner
+    - name: Print out secondary owner
+      ansible.builtin.debug:
+        var: secondary_owner

@@ -149,10 +149,10 @@
             name: openshift.dev.login.users
             apiGroup: rbac.authorization.k8s.io
           - kind: Group
-            name: openshift.${tenant}${env}.admin.users
+            name: "openshift.{{ tenant_id }}{{ tenant_env | lower }}.admin.users"
             apiGroup: rbac.authorization.k8s.io
           - kind: Group
-            name: openshift.${tenant}${env}.login.users
+            name: "openshift.{{ tenant_id }}{{ tenant_env | lower }}.login.users"
             apiGroup: rbac.authorization.k8s.io
           - kind: User
             name: system:serviceaccount:ucd-agent:ucd

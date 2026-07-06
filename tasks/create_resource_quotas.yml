@@ -1,9 +1,10 @@
 ---
 #### Set ResourceQuota Sizes and create ResourceQuotas (TODO: role)
-- name: Set ResourceQuota sizes and create ResourceQuota
+- name: Set ResourceQuota sizes and create ResourceQuota (Dev/QA)
+  when: item in ['Dev', 'QA']
   block:
   - name: Set size dq xs
-    when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Extra Small"
+    when: nonprod_shirt_size == "Extra Small"
     ansible.builtin.set_fact:
       pod_quota: 10
       services_quota: 5
@@ -12,7 +13,7 @@
       mem_req: 4Gi
       mem_limit: 8Gi
   - name: Set size dq s
-    when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Small"
+    when: nonprod_shirt_size == "Small"
     ansible.builtin.set_fact:
       pod_quota: 30
       services_quota: 10
@@ -21,7 +22,7 @@
       mem_req: 8Gi
       mem_limit: 16Gi
   - name: Set size dq m
-    when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Medium"
+    when: nonprod_shirt_size == "Medium"
     ansible.builtin.set_fact:
       pod_quota: 50
       services_quota: 15
@@ -30,7 +31,7 @@
       mem_req: 12Gi
       mem_limit: 24Gi
   - name: Set size dq l
-    when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Large"
+    when: nonprod_shirt_size == "Large"
     ansible.builtin.set_fact:
       pod_quota: 75
       services_quota: 15
@@ -38,8 +39,29 @@
       cpu_limit: 9000m
       mem_req: 16Gi
       mem_limit: 32Gi
+  - name: Create Resource Quota
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: v1
+        kind: ResourceQuota
+        metadata:
+          name: resource-quota
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        spec:
+          hard:
+            requests.cpu: "{{ cpu_req }}"
+            requests.memory: "{{ mem_req }}"
+            limits.cpu: "{{ cpu_limit }}"
+            limits.memory: "{{ mem_limit }}"
+            pods: "{{ pod_quota }}"
+            services: "{{ services_quota }}"
+
+- name: Set ResourceQuota sizes and create ResourceQuota (Stage/Prod)
+  when: item in ['Stage', 'Prod']
+  block:
   - name: Set size sp xs
-    when: item in ['Stage', 'Prod'] and prod_shirt_size == "Extra Small"
+    when: prod_shirt_size == "Extra Small"
     ansible.builtin.set_fact:
       pod_quota: 30
       services_quota: 10
@@ -48,7 +70,7 @@
       mem_req: 8Gi
       mem_limit: 16Gi
   - name: Set size sp s
-    when: item in ['Stage', 'Prod'] and prod_shirt_size == "Small"
+    when: prod_shirt_size == "Small"
     ansible.builtin.set_fact:
       pod_quota: 75
       services_quota: 15
@@ -57,7 +79,7 @@
       mem_req: 12Gi
       mem_limit: 24Gi
   - name: Set size sp m
-    when: item in ['Stage', 'Prod'] and prod_shirt_size == "Medium"
+    when: prod_shirt_size == "Medium"
     ansible.builtin.set_fact:
       pod_quota: 75
       services_quota: 15
@@ -66,7 +88,7 @@
       mem_req: 16Gi
       mem_limit: 32Gi
   - name: Set size sp l
-    when: item in ['Stage', 'Prod'] and prod_shirt_size == "Large"
+    when: prod_shirt_size == "Large"
     ansible.builtin.set_fact:
       pod_quota: 100
       services_quota: 30
@@ -74,16 +96,6 @@
       cpu_limit: 18000m
       mem_req: 32Gi
       mem_limit: 64Gi
-  - name: Print size quotas
-    ansible.builtin.debug:
-      msg:
-        - "pods: {{ pod_quota }}"
-        - "services: {{ services_quota }}"
-        - "CPU Request: {{ cpu_req }}"
-        - "CPU Limit: {{ cpu_limit }}"
-        - "Memory Request: {{ mem_req }}"
-        - "Memory Limit: {{ mem_limit }}"
-
   - name: Create Resource Quota
     kubernetes.core.k8s:
       state: present

@@ -1,7 +1,0 @@
-2026-07-01T17:55:48.880220+00:00 WARNING 'ansible_navigator.image_manager.puller._log_message' Image inspection failed, image assumed to be corrupted or missing
-2026-07-01T17:55:48.880355+00:00 WARNING 'ansible_navigator.image_manager.puller._log_message' stdout: Old database has been renamed to /home/ccannaro/.local/share/containers/storage/libpod/bolt_state.db-old and will no longer be used
-[]
-
-2026-07-01T17:55:48.880406+00:00 WARNING 'ansible_navigator.image_manager.puller._log_message' stderr: Error: registry.redhat.io/ansible-automation-platform-26/ee-supported-rhel9:latest: image not known
-
-2026-07-01T17:55:49.855857+00:00 ERROR 'ansible_navigator.image_manager.puller._log_message' Execution environment pull failed

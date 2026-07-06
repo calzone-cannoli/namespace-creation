@@ -1,2 +1,175 @@
 ---
-# tasks file for create_rolebindings
+#### Create RoleBindings
+- name: Dev/QA RoleBindings
+  when: item in ['Dev', 'QA']
+  block:
+  - name: Create RoleBindings for Dev/QA
+    when: item in ['Dev', 'QA']
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: admin-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: Group
+          name: openshift.devops.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.middleware.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.dev.login.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: "openshift.{{ tenant_id }}{{ item | lower }}.login.users"
+          apiGroup: rbac.authorization.k8s.io
+        - kind: User
+          name: system:serviceaccount:ucd-agent:ucd
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: admin
+          apiGroup: rbac.authorization.k8s.io
+      
+- name: Stage RoleBindings
+  when: item == 'Stage'
+  block:
+  - name: Create Admin RoleBinding for Stage
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: admin-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: User
+          name: system:serviceaccount:ucd-agent:ucd
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.staging.admin.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: "openshift.{{ tenant_id }}stage.admin.users"
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: admin
+          apiGroup: rbac.authorization.k8s.io
+  - name: Create View RoleBinding for Stage
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: view-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: Group
+          name: openshift.devops.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.middleware.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.staging.login.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: "openshift.{{ tenant_id }}stage.login.users"
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: view
+          apiGroup: rbac.authorization.k8s.io
+  - name: Create AppSupport RoleBinding for Stage
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: appsupport-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: Group
+          name: "openshift.{{ tenant_id }}stage.appsupport.users"
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: labcorp-app-support
+          apiGroup: rbac.authorization.k8s.io
+
+- name: Prod RoleBindings
+  when: item == 'Prod'
+  block:
+  - name: Create Admin RoleBinding for Prod
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: admin-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: User
+          name: system:serviceaccount:ucd-agent:ucd
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: "openshift.{{ tenant_id }}prod.admin.users"
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: admin
+          apiGroup: rbac.authorization.k8s.io
+  - name: Create View RoleBinding for Prod
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: view-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: Group
+          name: openshift.devops.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.middleware.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: openshift.prod.login.users
+          apiGroup: rbac.authorization.k8s.io
+        - kind: Group
+          name: "openshift.{{ tenant_id }}prod.login.users"
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: view
+          apiGroup: rbac.authorization.k8s.io
+  - name: Create AppSupport RoleBinding for Prod
+    kubernetes.core.k8s:
+      state: present
+      definition:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: appsupport-rb
+          namespace: "{{ tenant_id }}-{{ item | lower }}"
+        subjects:
+        - kind: Group
+          name: "openshift.{{ tenant_id }}prod.appsupport.users"
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: labcorp-app-support
+          apiGroup: rbac.authorization.k8s.io

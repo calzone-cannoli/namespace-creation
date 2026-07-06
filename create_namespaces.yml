@@ -3,26 +3,18 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    #### Create namespace (TODO: role)
-    - name: Create namespace
+    - name: Namespace
+      ansible.builtin.include_role: create_namespace
       loop: "{{ tenant_env }}"
-      kubernetes.core.k8s:
-        name: "{{ tenant_id }}-{{ item | lower }}"
-        api_version: v1
-        kind: Namespace
-        state: present
 
-    #### ResourceQuotas tasks file
     - name: ResourceQuotas
-      ansible.builtin.include_tasks: tasks/create_resource_quotas.yml
+      ansible.builtin.include_role: create_resourcequotas
       loop: "{{ tenant_env }}"
 
-    #### RoleBindings tasks file
     - name: RoleBindings
-      ansible.builtin.include_tasks: tasks/create_rolebindings.yml
+      ansible.builtin.include_role: create_rolebindings
       loop: "{{ tenant_env }}"
 
-    #### Groups tasks file
     - name: Groups
-      ansible.builtin.include_tasks: tasks/create_groups.yml
+      ansible.builtin.include_role: create_groups
       loop: "{{ tenant_env }}"

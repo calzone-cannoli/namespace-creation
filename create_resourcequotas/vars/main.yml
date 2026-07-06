@@ -3,7 +3,7 @@
 # RESOURCE QUOTAS BY T-SHIRT SIZE
 # =============================================================================
 # This file defines resource quotas for each t-shirt size and environment.
-# Used by onboard-oc.sh to create ResourceQuota objects.
+# Used by create_resourcequotas role to create ResourceQuota objects.
 # =============================================================================
 
 # Format: SIZE_ENV_FIELD: value

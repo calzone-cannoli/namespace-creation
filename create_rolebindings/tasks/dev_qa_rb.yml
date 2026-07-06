@@ -1,0 +1,33 @@
+---
+- name: Create RoleBindings for Dev/QA
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: admin-rb
+        namespace: "{{ tenant_id }}-{{ item | lower }}"
+      subjects:
+      - kind: Group
+        name: openshift.devops.users
+        apiGroup: rbac.authorization.k8s.io
+      - kind: Group
+        name: openshift.middleware.users
+        apiGroup: rbac.authorization.k8s.io
+      - kind: Group
+        name: openshift.dev.login.users
+        apiGroup: rbac.authorization.k8s.io
+      - kind: Group
+        name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
+        apiGroup: rbac.authorization.k8s.io
+      - kind: Group
+        name: "openshift.{{ tenant_id }}{{ item | lower }}.login.users"
+        apiGroup: rbac.authorization.k8s.io
+      - kind: User
+        name: system:serviceaccount:ucd-agent:ucd
+        apiGroup: rbac.authorization.k8s.io
+      roleRef:
+        kind: ClusterRole
+        name: admin
+        apiGroup: rbac.authorization.k8s.io

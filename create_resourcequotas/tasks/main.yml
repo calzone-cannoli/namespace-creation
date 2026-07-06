@@ -13,12 +13,8 @@
 - name: check reqs
   ansible.builtin.debug:
     msg:
-      - requests.cpu: "{{ {{ prefix }} ~ 'request_cpu' }}"
-      - requests.memory: "{{ prefix ~ 'request_memory' }}"
-      - limits.cpu: "{{ prefix ~ 'limit_cpu' }}"
-      - limits.memory: "{{ prefix ~ 'limit_memory' }}"
-      - pods: "{{ prefix ~ 'pods' }}"
-      - services: "{{ prefix ~ 'services' }}"
+      - "{{ prefix }}request_cpu"
+      - "{{ vars[prefix ~ request_cpu] }}"
       - "{{ extra_small_nonprod_request_cpu }}"
 
 # - name: Create Resource Quota

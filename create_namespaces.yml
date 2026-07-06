@@ -4,17 +4,21 @@
   gather_facts: false
   tasks:
     - name: Namespace
-      ansible.builtin.include_role: create_namespace
+      ansible.builtin.include_role: 
+        name: create_namespace
       loop: "{{ tenant_env }}"
 
     - name: ResourceQuotas
-      ansible.builtin.include_role: create_resourcequotas
+      ansible.builtin.include_role: 
+        name: create_resourcequotas
       loop: "{{ tenant_env }}"
 
     - name: RoleBindings
-      ansible.builtin.include_role: create_rolebindings
+      ansible.builtin.include_role: 
+        name: create_rolebindings
       loop: "{{ tenant_env }}"
 
     - name: Groups
-      ansible.builtin.include_role: create_groups
+      ansible.builtin.include_role: 
+        name: create_groups
       loop: "{{ tenant_env }}"

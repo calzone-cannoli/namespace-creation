@@ -5,159 +5,163 @@
   tasks:
     #### Create namespace (TODO: role)
     - name: Create namespace
+      loop: "{{ tenant_env }}"
       kubernetes.core.k8s:
-        name: "{{ tenant_id }}-{{ tenant_env | lower }}"
+        name: "{{ tenant_id }}-{{ item | lower }}"
         api_version: v1
         kind: Namespace
         state: present
 
     #### Print statements to check vars
-    - name: Print out env
+    - name: Print out envs
       ansible.builtin.debug:
         var: tenant_env
-    - name: Print out size
+    - name: Print out dev/qa size
       ansible.builtin.debug:
-        var: tenant_shirt_size
-    - name: Print out primary owner
+        var: nonprod_shirt_size
+    - name: Print out stg/prod size
       ansible.builtin.debug:
-        var: primary_owner
-    - name: Print out secondary owner
-      ansible.builtin.debug:
-        var: secondary_owner
+        var: prod_shirt_size
 
     #### Set ResourceQuota Sizes (TODO: role)
-    - name: Set size dq xs
-      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Extra Small"
-      ansible.builtin.set_fact:
-        pod_quota: 10
-        services_quota: 5
-        cpu_req: 500m
-        cpu_limit: 1000m
-        mem_req: 4Gi
-        mem_limit: 8Gi
-    - name: Set size dq s
-      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Small"
-      ansible.builtin.set_fact:
-        pod_quota: 30
-        services_quota: 10
-        cpu_req: 1000m
-        cpu_limit: 3000m
-        mem_req: 8Gi
-        mem_limit: 16Gi
-    - name: Set size dq m
-      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Medium"
-      ansible.builtin.set_fact:
-        pod_quota: 50
-        services_quota: 15
-        cpu_req: 3000m
-        cpu_limit: 6000m
-        mem_req: 12Gi
-        mem_limit: 24Gi
-    - name: Set size dq l
-      when: tenant_env in ['Dev', 'QA'] and tenant_shirt_size == "Large"
-      ansible.builtin.set_fact:
-        pod_quota: 75
-        services_quota: 15
-        cpu_req: 6000m
-        cpu_limit: 9000m
-        mem_req: 16Gi
-        mem_limit: 32Gi
-    - name: Set size sp xs
-      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Extra Small"
-      ansible.builtin.set_fact:
-        pod_quota: 30
-        services_quota: 10
-        cpu_req: 1000m
-        cpu_limit: 2000m
-        mem_req: 8Gi
-        mem_limit: 16Gi
-    - name: Set size sp s
-      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Small"
-      ansible.builtin.set_fact:
-        pod_quota: 75
-        services_quota: 15
-        cpu_req: 3000m
-        cpu_limit: 6000m
-        mem_req: 12Gi
-        mem_limit: 24Gi
-    - name: Set size sp m
-      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Medium"
-      ansible.builtin.set_fact:
-        pod_quota: 75
-        services_quota: 15
-        cpu_req: 6000m
-        cpu_limit: 9000m
-        mem_req: 16Gi
-        mem_limit: 32Gi
-    - name: Set size sp l
-      when: tenant_env in ['Stage', 'Prod'] and tenant_shirt_size == "Large"
-      ansible.builtin.set_fact:
-        pod_quota: 100
-        services_quota: 30
-        cpu_req: 9000m
-        cpu_limit: 18000m
-        mem_req: 32Gi
-        mem_limit: 64Gi
-    - name: Print size quotas
-      ansible.builtin.debug:
-        msg:
-          - "pods: {{ pod_quota }}"
-          - "services: {{ services_quota }}"
-          - "CPU Request: {{ cpu_req }}"
-          - "CPU Limit: {{ cpu_limit }}"
-          - "Memory Request: {{ mem_req }}"
-          - "Memory Limit: {{ mem_limit }}"
-
-    #### Create ResourceQuota (TODO: role)
-    - name: Create Resource Quota
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: ResourceQuota
-          metadata:
-            name: resource-quota
-            namespace: "{{ tenant_id }}"
-          spec:
-            hard:
-              requests.cpu: "{{ cpu_req }}"
-              requests.memory: "{{ mem_req }}"
-              limits.cpu: "{{ cpu_limit }}"
-              limits.memory: "{{ mem_limit }}"
-              pods: "{{ pod_quota }}"
-              services: "{{ services_quota }}"
+    - name: Set ResourceQuota sizes and create ResourceQuota
+      loop: "{{ tenant_env }}"
+      block:
+      - name: Set size dq xs
+        when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Extra Small"
+        ansible.builtin.set_fact:
+          pod_quota: 10
+          services_quota: 5
+          cpu_req: 500m
+          cpu_limit: 1000m
+          mem_req: 4Gi
+          mem_limit: 8Gi
+      - name: Set size dq s
+        when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Small"
+        ansible.builtin.set_fact:
+          pod_quota: 30
+          services_quota: 10
+          cpu_req: 1000m
+          cpu_limit: 3000m
+          mem_req: 8Gi
+          mem_limit: 16Gi
+      - name: Set size dq m
+        when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Medium"
+        ansible.builtin.set_fact:
+          pod_quota: 50
+          services_quota: 15
+          cpu_req: 3000m
+          cpu_limit: 6000m
+          mem_req: 12Gi
+          mem_limit: 24Gi
+      - name: Set size dq l
+        when: item in ['Dev', 'QA'] and nonprod_shirt_size == "Large"
+        ansible.builtin.set_fact:
+          pod_quota: 75
+          services_quota: 15
+          cpu_req: 6000m
+          cpu_limit: 9000m
+          mem_req: 16Gi
+          mem_limit: 32Gi
+      - name: Set size sp xs
+        when: item in ['Stage', 'Prod'] and prod_shirt_size == "Extra Small"
+        ansible.builtin.set_fact:
+          pod_quota: 30
+          services_quota: 10
+          cpu_req: 1000m
+          cpu_limit: 2000m
+          mem_req: 8Gi
+          mem_limit: 16Gi
+      - name: Set size sp s
+        when: item in ['Stage', 'Prod'] and nonprod_shirt_size == "Small"
+        ansible.builtin.set_fact:
+          pod_quota: 75
+          services_quota: 15
+          cpu_req: 3000m
+          cpu_limit: 6000m
+          mem_req: 12Gi
+          mem_limit: 24Gi
+      - name: Set size sp m
+        when: item in ['Stage', 'Prod'] and nonprod_shirt_size == "Medium"
+        ansible.builtin.set_fact:
+          pod_quota: 75
+          services_quota: 15
+          cpu_req: 6000m
+          cpu_limit: 9000m
+          mem_req: 16Gi
+          mem_limit: 32Gi
+      - name: Set size sp l
+        when: item in ['Stage', 'Prod'] and nonprod_shirt_size == "Large"
+        ansible.builtin.set_fact:
+          pod_quota: 100
+          services_quota: 30
+          cpu_req: 9000m
+          cpu_limit: 18000m
+          mem_req: 32Gi
+          mem_limit: 64Gi
+      - name: Print size quotas
+        ansible.builtin.debug:
+          msg:
+            - "pods: {{ pod_quota }}"
+            - "services: {{ services_quota }}"
+            - "CPU Request: {{ cpu_req }}"
+            - "CPU Limit: {{ cpu_limit }}"
+            - "Memory Request: {{ mem_req }}"
+            - "Memory Limit: {{ mem_limit }}"
+      #### Create ResourceQuota (TODO: role)
+      - name: Create Resource Quota
+        kubernetes.core.k8s:
+          state: present
+          definition:
+            apiVersion: v1
+            kind: ResourceQuota
+            metadata:
+              name: resource-quota
+              namespace: "{{ tenant_id }}-{{ item | lower }}"
+            spec:
+              hard:
+                requests.cpu: "{{ cpu_req }}"
+                requests.memory: "{{ mem_req }}"
+                limits.cpu: "{{ cpu_limit }}"
+                limits.memory: "{{ mem_limit }}"
+                pods: "{{ pod_quota }}"
+                services: "{{ services_quota }}"
 
     #### Create RoleBindings (TODO: role)
-    - name: Create Role Binding for Dev/QA
-      when: tenant_env in ['Dev', 'QA']
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: rbac.authorization.k8s.io/v1
-          kind: RoleBinding
-          metadata:
-            name: admin-rb
-            namespace: "{{ tenant_id }}"
-          subjects:
-          - kind: Group
-            name: openshift.devops.users
-            apiGroup: rbac.authorization.k8s.io
-          - kind: Group
-            name: openshift.middleware.users
-            apiGroup: rbac.authorization.k8s.io
-          - kind: Group
-            name: openshift.dev.login.users
-            apiGroup: rbac.authorization.k8s.io
-          - kind: Group
-            name: "openshift.{{ tenant_id }}.{{ tenant_env | lower }}.admin.users"
-            apiGroup: rbac.authorization.k8s.io
-          - kind: Group
-            name: "openshift.{{ tenant_id }}.{{ tenant_env | lower }}.login.users"
-            apiGroup: rbac.authorization.k8s.io
-          - kind: User
-            name: system:serviceaccount:ucd-agent:ucd
-            apiGroup: rbac.authorization.k8s.io
-          roleRef:
-            kind: ClusterRole
-            name: admin
-            apiGroup: rbac.authorization.k8s.io
+    - name: Set ResourceQuota sizes and create ResourceQuota
+      loop: "{{ tenant_env }}"
+      block:
+      - name: Create Role Bindings for Dev/QA
+        loop: "{{ tenant_env }}"
+        when: item in ['Dev', 'QA']
+        kubernetes.core.k8s:
+          state: present
+          definition:
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: admin-rb
+              namespace: "{{ tenant_id }}-{{ item | lower }}"
+            subjects:
+            - kind: Group
+              name: openshift.devops.users
+              apiGroup: rbac.authorization.k8s.io
+            - kind: Group
+              name: openshift.middleware.users
+              apiGroup: rbac.authorization.k8s.io
+            - kind: Group
+              name: openshift.dev.login.users
+              apiGroup: rbac.authorization.k8s.io
+            - kind: Group
+              name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
+              apiGroup: rbac.authorization.k8s.io
+            - kind: Group
+              name: "openshift.{{ tenant_id }}{{ item | lower }}.login.users"
+              apiGroup: rbac.authorization.k8s.io
+            - kind: User
+              name: system:serviceaccount:ucd-agent:ucd
+              apiGroup: rbac.authorization.k8s.io
+            roleRef:
+              kind: ClusterRole
+              name: admin
+              apiGroup: rbac.authorization.k8s.io

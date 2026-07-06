@@ -5,7 +5,7 @@
   ansible.builtin.import_tasks: dev_qa_rb.yml
       
 - name: Stage RoleBindings
-  when: item == 'Stage
+  when: item == 'Stage'
   ansible.builtin.import_tasks: stage_rb.yml
 
 - name: Prod RoleBindings

@@ -6,7 +6,7 @@
       apiVersion: user.openshift.io/v1
       kind: Group
       metadata:
-        name: "openshift.{{ tenant_id }}{{ item }}.admin.users"
+        name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
       users: null
 - name: Create User Group
   kubernetes.core.k8s:
@@ -15,7 +15,7 @@
       apiVersion: user.openshift.io/v1
       kind: Group
       metadata:
-        name: openshift.{{ tenant_id }}{{ item }}.login.users
+        name: openshift.{{ tenant_id }}{{ item | lower }}.login.users
       users: null
 - name: Create Appsupport Group
   kubernetes.core.k8s:
@@ -24,5 +24,5 @@
       apiVersion: user.openshift.io/v1
       kind: Group
       metadata:
-        name: openshift.{{ tenant_id }}{{ item }}.appsupport.users
+        name: openshift.{{ tenant_id }}{{ item | lower }}.appsupport.users
       users: null

@@ -1,2 +1,79 @@
 ---
-# vars file for create_resourcequotas
+# =============================================================================
+# RESOURCE QUOTAS BY T-SHIRT SIZE
+# =============================================================================
+# This file defines resource quotas for each t-shirt size and environment.
+# Used by onboard-oc.sh to create ResourceQuota objects.
+# =============================================================================
+
+# Format: SIZE_ENV_FIELD: value
+# Sizes: extra-small, small, medium, large
+# Envs: nonprod (dev/qa/uat/poc), prod (stage/prod)
+
+# -----------------------------------------------------------------------------
+# EXTRA-SMALL
+# -----------------------------------------------------------------------------
+extra_small_nonprod_request_cpu: 500m
+extra_small_nonprod_request_memory: 4Gi
+extra_small_nonprod_limit_cpu: 1000m
+extra_small_nonprod_limit_memory: 8Gi
+extra_small_nonprod_pods: 10
+extra_small_nonprod_services: 5
+
+extra_small_prod_request_cpu: 1000m
+extra_small_prod_request_memory: 8Gi
+extra_small_prod_limit_cpu: 2000m
+extra_small_prod_limit_memory: 16Gi
+extra_small_prod_pods: 30
+extra_small_prod_services: 10
+
+# -----------------------------------------------------------------------------
+# SMALL
+# -----------------------------------------------------------------------------
+small_nonprod_request_cpu: 1000m
+small_nonprod_request_memory: 8Gi
+small_nonprod_limit_cpu: 3000m
+small_nonprod_limit_memory: 16Gi
+small_nonprod_pods: 30
+small_nonprod_services: 10
+
+small_prod_request_cpu: 3000m
+small_prod_request_memory: 12Gi
+small_prod_limit_cpu: 6000m
+small_prod_limit_memory: 24Gi
+small_prod_pods: 75
+small_prod_services: 15
+
+# -----------------------------------------------------------------------------
+# MEDIUM
+# -----------------------------------------------------------------------------
+medium_nonprod_request_cpu: 3000m
+medium_nonprod_request_memory: 12Gi
+medium_nonprod_limit_cpu: 6000m
+medium_nonprod_limit_memory: 24Gi
+medium_nonprod_pods: 50
+medium_nonprod_services: 15
+
+medium_prod_request_cpu: 6000m
+medium_prod_request_memory: 16Gi
+medium_prod_limit_cpu: 9000m
+medium_prod_limit_memory: 32Gi
+medium_prod_pods: 75
+medium_prod_services: 15
+
+# -----------------------------------------------------------------------------
+# LARGE
+# -----------------------------------------------------------------------------
+large_nonprod_request_cpu: 6000m
+large_nonprod_request_memory: 16Gi
+large_nonprod_limit_cpu: 9000m
+large_nonprod_limit_memory: 32Gi
+large_nonprod_pods: 75
+large_nonprod_services: 15
+
+large_prod_request_cpu: 9000m
+large_prod_request_memory: 32Gi
+large_prod_limit_cpu: 18000m
+large_prod_limit_memory: 64Gi
+large_prod_pods: 100
+large_prod_services: 30

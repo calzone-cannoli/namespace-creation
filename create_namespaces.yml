@@ -2,12 +2,9 @@
 - name: Create namespaces
   hosts: localhost
   gather_facts: false
-  tasks:
-    - name: Namespace
-      ansible.builtin.include_role: 
-        name: create_namespace
-      loop: "{{ tenant_env }}"
-
+  roles:
+    - create_namespace
+  post_tasks:
     - name: ResourceQuotas
       ansible.builtin.include_role: 
         name: create_resourcequotas

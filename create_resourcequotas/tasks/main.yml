@@ -26,4 +26,4 @@
           limits.cpu: "{{ vars[prefix ~ 'limit_cpu'] }}"
           limits.memory: "{{ vars[prefix ~ 'limit_memory'] }}"
           pods: "{{ vars[prefix ~ 'pods'] }}"
-          services: "{{ vars[prefix ~ 'services]' }}"
+          services: "{{ vars[prefix ~ 'services'] }}"

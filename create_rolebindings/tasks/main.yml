@@ -4,7 +4,6 @@
   when: item in ['Dev', 'QA']
   block:
   - name: Create RoleBindings for Dev/QA
-    when: item in ['Dev', 'QA']
     kubernetes.core.k8s:
       state: present
       definition:

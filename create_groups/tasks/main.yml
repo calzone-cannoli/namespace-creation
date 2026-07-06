@@ -8,6 +8,7 @@
       kind: Group
       metadata:
         name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
+        namespace: "{{ tenant_id }}-{{ item | lower }}"
       users: null
 - name: Create User Group
   kubernetes.core.k8s:
@@ -17,6 +18,7 @@
       kind: Group
       metadata:
         name: "openshift.{{ tenant_id }}{{ item | lower }}.login.users"
+        namespace: "{{ tenant_id }}-{{ item | lower }}"
       users: null
 - name: Create Appsupport Group
   kubernetes.core.k8s:
@@ -26,4 +28,5 @@
       kind: Group
       metadata:
         name: "openshift.{{ tenant_id }}{{ item | lower }}.appsupport.users"
+        namespace: "{{ tenant_id }}-{{ item | lower }}"
       users: null

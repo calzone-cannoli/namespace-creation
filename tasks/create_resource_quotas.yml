@@ -74,15 +74,15 @@
       cpu_limit: 18000m
       mem_req: 32Gi
       mem_limit: 64Gi
-  - name: Print size quotas
-    ansible.builtin.debug:
-      msg:
-        - "pods: {{ pod_quota }}"
-        - "services: {{ services_quota }}"
-        - "CPU Request: {{ cpu_req }}"
-        - "CPU Limit: {{ cpu_limit }}"
-        - "Memory Request: {{ mem_req }}"
-        - "Memory Limit: {{ mem_limit }}"
+  #- name: Print size quotas
+  #  ansible.builtin.debug:
+  #    msg:
+  #      - "pods: {{ pod_quota }}"
+  #      - "services: {{ services_quota }}"
+  #      - "CPU Request: {{ cpu_req }}"
+  #      - "CPU Limit: {{ cpu_limit }}"
+  #      - "Memory Request: {{ mem_req }}"
+  #      - "Memory Limit: {{ mem_limit }}"
 
   - name: Create Resource Quota
     kubernetes.core.k8s:

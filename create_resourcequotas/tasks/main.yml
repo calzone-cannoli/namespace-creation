@@ -13,7 +13,7 @@
 - name: check reqs
   ansible.builtin.debug:
     msg:
-      - requests.cpu: "{{ prefix ~ 'request_cpu' }}"
+      - requests.cpu: "{{ {{ prefix }} ~ 'request_cpu' }}"
       - requests.memory: "{{ prefix ~ 'request_memory' }}"
       - limits.cpu: "{{ prefix ~ 'limit_cpu' }}"
       - limits.memory: "{{ prefix ~ 'limit_memory' }}"

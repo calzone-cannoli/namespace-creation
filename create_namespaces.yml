@@ -25,7 +25,7 @@
 
     #### ResourceQuotas tasks file
     - name: ResourceQuotas
-      ansible.builtin.include_tasks: tasks/create_resourrce_quotas.yml
+      ansible.builtin.include_tasks: tasks/create_resource_quotas.yml
       loop: "{{ tenant_env }}"
 
     #### Create RoleBindings (TODO: role)

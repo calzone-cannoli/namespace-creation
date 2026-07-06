@@ -10,27 +10,20 @@
   ansible.builtin.set_fact:
     prefix: "{{ nonprod_shirt_size | lower | replace(' ', '_') }}_prod_"
 
-- name: check reqs
-  ansible.builtin.debug:
-    msg:
-      - "{{ prefix }}request_cpu"
-      - "{{ vars[prefix ~ 'request_cpu'] }}"
-      - "{{ extra_small_nonprod_request_cpu }}"
-
-# - name: Create Resource Quota
-#   kubernetes.core.k8s:
-#     state: present
-#     definition:
-#       apiVersion: v1
-#       kind: ResourceQuota
-#       metadata:
-#         name: resource-quota
-#         namespace: "{{ tenant_id }}-{{ item | lower }}"
-#       spec:
-#         hard:
-#           requests.cpu: "{{ prefix ~ 'request_cpu' }}"
-#           requests.memory: "{{ prefix ~ 'request_memory' }}"
-#           limits.cpu: "{{ prefix ~ 'limit_cpu' }}"
-#           limits.memory: "{{ prefix ~ 'limit_memory' }}"
-#           pods: "{{ prefix ~ 'pods' }}"
-#           services: "{{ prefix ~ 'services' }}"
+- name: Create Resource Quota
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ResourceQuota
+      metadata:
+        name: resource-quota
+        namespace: "{{ tenant_id }}-{{ item | lower }}"
+      spec:
+        hard:
+          requests.cpu: "{{ vars[prefix ~ 'request_cpu'] }}"
+          requests.memory: "{{ vars[prefix ~ 'request_memory'] }}"
+          limits.cpu: "{{ vars[prefix ~ 'limit_cpu'] }}"
+          limits.memory: "{{ vars[prefix ~ 'limit_memory'] }}"
+          pods: "{{ vars[prefix ~ 'pods'] }}"
+          services: "{{ vars[prefix ~ 'services]' }}"

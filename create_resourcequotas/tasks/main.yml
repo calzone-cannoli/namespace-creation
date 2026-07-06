@@ -14,7 +14,7 @@
   ansible.builtin.debug:
     msg:
       - "{{ prefix }}request_cpu"
-      - "{{ vars[prefix ~ request_cpu] }}"
+      - "{{ vars[prefix ~ 'request_cpu'] }}"
       - "{{ extra_small_nonprod_request_cpu }}"
 
 # - name: Create Resource Quota

@@ -151,7 +151,7 @@
             name: system:serviceaccount:ucd-agent:ucd
             apiGroup: rbac.authorization.k8s.io
           - kind: Group
-            name: openshift.{{ tenant_id }}prod.admin.users
+            name: "openshift.{{ tenant_id }}prod.admin.users"
             apiGroup: rbac.authorization.k8s.io
           roleRef:
             kind: ClusterRole
@@ -179,7 +179,7 @@
             name: openshift.prod.login.users
             apiGroup: rbac.authorization.k8s.io
           - kind: Group
-            name: openshift.{{ tenant_id }}prod.login.users
+            name: "openshift.{{ tenant_id }}prod.login.users"
             apiGroup: rbac.authorization.k8s.io
           roleRef:
             kind: ClusterRole
@@ -198,9 +198,14 @@
             namespace: "{{ tenant_id }}-{{ item | lower }}"
           subjects:
           - kind: Group
-            name: openshift.{{ tenant_id }}prod.appsupport.users
+            name: "openshift.{{ tenant_id }}prod.appsupport.users"
             apiGroup: rbac.authorization.k8s.io
           roleRef:
             kind: ClusterRole
             name: labcorp-app-support
             apiGroup: rbac.authorization.k8s.io
+
+    #### Groups tasks file
+    - name: Groups
+      ansible.builtin.include_tasks: tasks/create_groups.yml
+      loop: "{{ tenant_env }}"

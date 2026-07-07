@@ -1,14 +1,14 @@
 ---
-# Set ResourceQuota sizes and create ResourceQuotas
+# Create ResourceQuotas
 - name: Set nonprod prefix
-  when: item in ['Dev', 'QA']
   ansible.builtin.set_fact:
     prefix: "{{ nonprod_shirt_size | lower | replace(' ', '_') }}_nonprod_"
+  when: item in ['Dev', 'QA']
 
 - name: Set prod prefix
-  when: item in ['Stage', 'Prod']
   ansible.builtin.set_fact:
     prefix: "{{ nonprod_shirt_size | lower | replace(' ', '_') }}_prod_"
+  when: item in ['Stage', 'Prod']
 
 - name: Create Resource Quota
   kubernetes.core.k8s:
@@ -21,6 +21,7 @@
         namespace: "{{ tenant_id }}-{{ item | lower }}"
       spec:
         hard:
+          # NOTE: ResourceQuotas for each size are defined in vars/main.yml
           requests.cpu: "{{ vars[prefix ~ 'request_cpu'] }}"
           requests.memory: "{{ vars[prefix ~ 'request_memory'] }}"
           limits.cpu: "{{ vars[prefix ~ 'limit_cpu'] }}"

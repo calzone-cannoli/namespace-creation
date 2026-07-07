@@ -9,6 +9,7 @@
       metadata:
         name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
       users: null
+
 - name: Create User Group
   kubernetes.core.k8s:
     state: present
@@ -18,6 +19,7 @@
       metadata:
         name: "openshift.{{ tenant_id }}{{ item | lower }}.login.users"
       users: null
+
 - name: Create Appsupport Group
   kubernetes.core.k8s:
     state: present

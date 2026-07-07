@@ -2,6 +2,11 @@
 - name: Create namespaces
   hosts: localhost
   gather_facts: false
+  # vars: #Collected from Survey
+  #   tenant_env: []
+  #   tenant_id: ""
+  #   nonprod_shirt_size: ""
+  #   prod_shirt_size: ""
   roles:
     - create_namespace
   post_tasks:

@@ -7,7 +7,7 @@
 
 - name: Set prod prefix
   ansible.builtin.set_fact:
-    prefix: "{{ nonprod_shirt_size | lower | replace(' ', '_') }}_prod_"
+    prefix: "{{ prod_shirt_size | lower | replace(' ', '_') }}_prod_"
   when: item in ['Stage', 'Prod']
 
 - name: Create Resource Quota

@@ -1,0 +1,10 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for create_gitops
+git_repo_url: "https://{{ github_user | urlencode }}:{{ github_password | urlencode }}@github.com/jlarsen31/namespace-cac.git"
+git_branch: "main"
+temp_dir: "/tmp/gitops_workdir"
+tenant_id: "{{ tenant_id | default('unnamed_tenant') }}"
+tenant_env: "{{ tenant_env | default(['Dev']) }}"
+nonprod_shirt_size: "{{ nonprod_shirt_size | default('Medium') }}"
+prod_shirt_size: "{{ prod_shirt_size | default('Medium') }}"

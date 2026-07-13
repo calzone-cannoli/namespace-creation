@@ -1,0 +1,50 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for create_gitops
+- name: Ensure workspace is clean
+  ansible.builtin.file:
+    path: "{{ temp_dir }}"
+    state: absent
+  
+- name: Set nonprod prefix
+  ansible.builtin.set_fact:
+    prefix: "{{ nonprod_shirt_size | lower | replace(' ', '_') }}_nonprod_"
+  when: item in ['Dev', 'QA']
+
+- name: Set prod prefix
+  ansible.builtin.set_fact:
+    prefix: "{{ prod_shirt_size | lower | replace(' ', '_') }}_prod_"
+  when: item in ['Stage', 'Prod']
+
+- name: Clone GitOps repository
+  ansible.builtin.git:
+    repo: "{{ git_repo_url }}"
+    dest: "{{ temp_dir }}"
+    version: "{{ git_branch }}"
+    accept_hostkey: yes
+    depth: 1
+
+- name: Create directory for the new project
+  ansible.builtin.file:
+    path: "{{ temp_dir }}/namespaces/{{ tenant_id }}"
+    state: directory
+
+- name: Generate Kubernetes YAML resources from template
+  ansible.builtin.template:
+    src: ../templates/tenant_resources.j2
+    dest: "{{ temp_dir }}/namespaces/{{ tenant_id }}/{{ item | lower }}.yaml"
+
+- name: Commit and Push to Git
+  shell: |
+    cd {{ temp_dir }}
+    git config user.email "ansible-automation@redhat.com"
+    git config user.name "AAP Provisioner Bot"
+    git add .
+    git commit -m "Automated provisioning of tenant: {{ tenant_id }}"
+    git push origin {{ git_branch }}
+  register: git_result
+  changed_when: "'nothing to commit' not in git_result.stdout"
+
+- name: Feedback for AAP UI
+  debug:
+    msg: "Tenant {{ tenant_id }} files pushed successfully. "

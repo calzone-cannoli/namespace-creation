@@ -24,3 +24,8 @@
       ansible.builtin.include_role: 
         name: create_groups
       loop: "{{ tenant_env }}"
+
+    - name: GitOps Sync
+      ansible.builtin.include_role:
+        name: create_gitops
+      loop: "{{ tenant_env }}"

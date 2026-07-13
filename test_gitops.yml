@@ -1,0 +1,15 @@
+- name: Test OpenShift Provisioning Role in Isolation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    tenant_id: "test-tenant-4"
+    tenant_env: ["Dev", "Stage", "Prod"]
+    nonprod_shirt_size: "medium"
+    prod_shirt_size: "medium"
+  
+  tasks:
+    - name: Execute create_gitops role for each environment
+      ansible.builtin.include_role:
+        name: create_gitops
+      loop: "{{ tenant_env }}"

@@ -1,0 +1,8 @@
+---
+- name: Hello world
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Greet the world
+      ansible.builtin.debug:
+        msg: "hello world!!"

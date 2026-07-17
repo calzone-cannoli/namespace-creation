@@ -1,8 +1,10 @@
 ---
 controller_projects:
-  - name: Demo Project
-    organization: MyOrg
+  - name: Onboarding
+    organization: Platform Automations
     scm_type: git
-    scm_url: https://github.com/ansible/ansible-examples.git
-    scm_branch: main
-    description: Demo project for getting started
+    scm_url: https://github.com/calzone-cannoli/namespace-creation
+    scm_branch: cac
+    credentials:
+      - git
+    description: Project for onboarding namespaces

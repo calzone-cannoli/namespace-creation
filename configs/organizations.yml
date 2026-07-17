@@ -1,6 +1,4 @@
 ---
 aap_organizations:
-  - name: TestOrg
-    description: My First Organization
-  - name: Development
-    description: Development Environment Organization
+  - name: Platform Automations
+    description: Ansible automation for platform team

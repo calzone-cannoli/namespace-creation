@@ -1,0 +1,67 @@
+controller_templates:
+  - name: Test Namespace Onboarding
+    job_type: run
+    inventory: Demo Inventory
+    survey_enabled: true
+    survey_spec:
+      name: Onboarding Survey
+      description: Survey for onboarding namespaces
+      spec:
+        - question_description: Which environment?
+          min: 0
+          default: ""
+          max: 0
+          required: true
+          choices: |-
+            Dev
+            QA
+            Stage
+            Prod
+          new_question: true
+          variable: tenant_env
+          question_name: 'Select Env:'
+          type: multiselect
+        - question_description: Tenant ID?
+          min: 6
+          default: aaa-test
+          max: 10
+          required: true
+          choices: ""
+          new_question: true
+          variable: tenant_id
+          question_name: 'Tenant ID:'
+          type: text
+        - question_description: Dev/QA shirt size
+          min: 0
+          default: ""
+          max: 0
+          required: true
+          choices: |-
+            Extra Small
+            Small
+            Medium
+            Large
+            No Dev/QA environment needed
+          new_question: true
+          variable: nonprod_shirt_size
+          question_name: 'Dev/QA Shirt Size:'
+          type: multiplechoice
+        - question_description: Stage/Prod shirt size
+          min: 0
+          default: ""
+          max: 0
+          required: true
+          choices: |-
+            Extra Small
+            Small
+            Medium
+            Large
+            No Stage/Prod environment needed
+          new_question: true
+          variable: prod_shirt_size
+          question_name: 'Stage/Prod Shirt Size:'
+          type: multiplechoice
+    project: Onboarding
+    playbook: tenant_onboarding.yml
+    credentials:
+    - test-ocp-kubeconfig

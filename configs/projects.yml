@@ -1,0 +1,10 @@
+---
+controller_projects:
+  - name: Onboarding
+    organization: Platform Automations
+    scm_type: git
+    scm_url: https://github.com/calzone-cannoli/namespace-creation
+    scm_branch: cac
+    credentials:
+      - git
+    description: Project for onboarding namespaces

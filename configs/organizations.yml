@@ -1,4 +1,4 @@
 ---
 aap_organizations:
-  - name: Platform Automations
-    description: Ansible automation for platform team
+  - name: Platform Automation
+    description: Ansible automations for platform team

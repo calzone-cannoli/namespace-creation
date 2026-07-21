@@ -4,7 +4,7 @@ controller_projects:
     organization: Platform Automation
     scm_type: git
     scm_url: https://github.com/calzone-cannoli/namespace-creation
-    scm_branch: cac
+    scm_branch: main
     credentials:
       - git
     description: Project for onboarding namespaces

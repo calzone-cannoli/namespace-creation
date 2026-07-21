@@ -26,13 +26,13 @@
 
 - name: Create directory for the new project
   ansible.builtin.file:
-    path: "{{ temp_dir }}/namespaces/{{ tenant_id }}"
+    path: "{{ temp_dir }}/generated/{{ tenant_id }}"
     state: directory
 
 - name: Generate Kubernetes YAML resources from template
   ansible.builtin.template:
     src: ../templates/tenant_resources.j2
-    dest: "{{ temp_dir }}/namespaces/{{ tenant_id }}/{{ item | lower }}.yaml"
+    dest: "{{ temp_dir }}/generated/{{ tenant_id }}/{{ item | lower }}.yaml"
 
 - name: Commit and Push to Git
   shell: |

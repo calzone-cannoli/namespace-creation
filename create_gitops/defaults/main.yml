@@ -4,7 +4,7 @@
 github_user: "{{ lookup('env', 'GIT_USER') }}"
 github_password: "{{ lookup('env', 'GIT_TOKEN') }}"
 git_repo_url: "https://{{ github_user | urlencode }}:{{ github_password | urlencode }}@github.com/calzone-cannoli/namespace-creation.git"
-git_branch: "test-gitops"
+git_branch: "main"
 temp_dir: "/tmp/gitops_workdir"
 tenant_id: "{{ tenant_id | default('unnamed_tenant') }}"
 tenant_env: "{{ tenant_env | default(['Dev']) }}"

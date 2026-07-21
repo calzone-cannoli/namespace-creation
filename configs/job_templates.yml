@@ -65,3 +65,4 @@ controller_templates:
     playbook: tenant_onboarding.yml
     credentials:
     - ocp-kubeconfig
+    - git-token

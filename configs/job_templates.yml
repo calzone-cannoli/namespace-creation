@@ -1,5 +1,5 @@
 controller_templates:
-  - name: Test Namespace Onboarding
+  - name: Namespace Onboarding
     job_type: run
     inventory: Demo Inventory
     survey_enabled: true
@@ -64,4 +64,4 @@ controller_templates:
     project: Onboarding
     playbook: tenant_onboarding.yml
     credentials:
-    - test-ocp-kubeconfig
+    - ocp-kubeconfig

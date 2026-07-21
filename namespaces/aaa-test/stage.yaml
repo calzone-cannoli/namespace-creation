@@ -1,0 +1,107 @@
+---
+# Namespace Definition (mirrors create_namespace role)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "aaa-test-stage"
+  labels:
+    tenant: "aaa-test"
+    environment: "stage"
+    provisioned-by: ansible-automation-platform
+
+---
+# Resource Quota Definition
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: resource-quota
+  namespace: "aaa-test-stage"
+spec:
+  hard:
+    # NOTE: ResourceQuotas for each size are defined in vars/main.yml
+    requests.cpu: "1000m"
+    requests.memory: "8Gi"
+    limits.cpu: "2000m"
+    limits.memory: "16Gi"
+    pods: "30"
+    services: "10"
+
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: "openshift.aaa-teststage.admin.users"
+users: null
+
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: "openshift.aaa-teststage.login.users"
+users: null
+
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: "openshift.aaa-teststage.appsupport.users"
+users: null
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: admin-rb
+  namespace: "aaa-test-stage"
+subjects:
+- kind: User
+  name: system:serviceaccount:ucd-agent:ucd
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: openshift.staging.admin.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: "openshift.aaa-teststage.admin.users"
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: view-rb
+  namespace: "aaa-test-stage"
+subjects:
+- kind: Group
+  name: openshift.devops.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: openshift.middleware.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: openshift.staging.login.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: "openshift.aaa-teststage.login.users"
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: appsupport-rb
+  namespace: "aaa-test-stage"
+subjects:
+- kind: Group
+  name: "openshift.aaa-teststage.appsupport.users"
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: labcorp-app-support
+  apiGroup: rbac.authorization.k8s.io
+

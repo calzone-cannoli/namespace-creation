@@ -7,6 +7,8 @@
     tenant_env: ["Dev", "Stage", "Prod"]
     nonprod_shirt_size: "medium"
     prod_shirt_size: "medium"
+    github_user: "{{ lookup('env', 'GIT_USER') }}"
+    github_password: "{{ lookup('env', 'GIT_TOKEN') }}"
   
   tasks:
     - name: Execute create_gitops role for each environment

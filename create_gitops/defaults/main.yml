@@ -1,6 +1,8 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # defaults file for create_gitops
+github_user: "{{ lookup('env', 'GIT_USER') }}"
+github_password: "{{ lookup('env', 'GIT_TOKEN') }}"
 git_repo_url: "https://{{ github_user | urlencode }}:{{ github_password | urlencode }}@github.com/calzone-cannoli/namespace-creation.git"
 git_branch: "test-gitops"
 temp_dir: "/tmp/gitops_workdir"

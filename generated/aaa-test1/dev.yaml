@@ -1,0 +1,79 @@
+---
+# Namespace Definition (mirrors create_namespace role)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "aaa-test1-dev"
+  labels:
+    tenant: "aaa-test1"
+    environment: "dev"
+    provisioned-by: ansible-automation-platform
+
+---
+# Resource Quota Definition
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: resource-quota
+  namespace: "aaa-test1-dev"
+spec:
+  hard:
+    # NOTE: ResourceQuotas for each size are defined in vars/main.yml
+    requests.cpu: "3000m"
+    requests.memory: "12Gi"
+    limits.cpu: "6000m"
+    limits.memory: "24Gi"
+    pods: "50"
+    services: "15"
+
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: "openshift.aaa-test1dev.admin.users"
+users: null
+
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: "openshift.aaa-test1dev.login.users"
+users: null
+
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: "openshift.aaa-test1dev.appsupport.users"
+users: null
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: admin-rb
+  namespace: "aaa-test1-dev"
+subjects:
+- kind: Group
+  name: openshift.devops.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: openshift.middleware.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: openshift.dev.login.users
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: "openshift.aaa-test1dev.admin.users"
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: "openshift.aaa-test1dev.login.users"
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: system:serviceaccount:ucd-agent:ucd
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+

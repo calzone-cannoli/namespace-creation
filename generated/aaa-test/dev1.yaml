@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "test-tenant-4-dev"
+  name: "aaa-test-dev1"
   labels:
-    tenant: "test-tenant-4"
-    environment: "dev"
+    tenant: "aaa-test"
+    environment: "dev1"
     provisioned-by: ansible-automation-platform
 
 ---
@@ -15,36 +15,36 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: resource-quota
-  namespace: "test-tenant-4-dev"
+  namespace: "aaa-test-dev1"
 spec:
   hard:
     # NOTE: ResourceQuotas for each size are defined in vars/main.yml
-    requests.cpu: "3000m"
-    requests.memory: "12Gi"
-    limits.cpu: "6000m"
-    limits.memory: "24Gi"
-    pods: "50"
-    services: "15"
+    requests.cpu: "1000m"
+    requests.memory: "8Gi"
+    limits.cpu: "3000m"
+    limits.memory: "16Gi"
+    pods: "30"
+    services: "10"
 
 ---
 apiVersion: user.openshift.io/v1
 kind: Group
 metadata:
-  name: "openshift.test-tenant-4dev.admin.users"
+  name: "openshift.aaa-testdev1.admin.users"
 users: null
 
 ---
 apiVersion: user.openshift.io/v1
 kind: Group
 metadata:
-  name: "openshift.test-tenant-4dev.login.users"
+  name: "openshift.aaa-testdev1.login.users"
 users: null
 
 ---
 apiVersion: user.openshift.io/v1
 kind: Group
 metadata:
-  name: "openshift.test-tenant-4dev.appsupport.users"
+  name: "openshift.aaa-testdev1.appsupport.users"
 users: null
 
 ---
@@ -52,7 +52,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: admin-rb
-  namespace: "test-tenant-4-dev"
+  namespace: "aaa-test-dev1"
 subjects:
 - kind: Group
   name: openshift.devops.users
@@ -64,10 +64,10 @@ subjects:
   name: openshift.dev.login.users
   apiGroup: rbac.authorization.k8s.io
 - kind: Group
-  name: "openshift.test-tenant-4dev.admin.users"
+  name: "openshift.aaa-testdev1.admin.users"
   apiGroup: rbac.authorization.k8s.io
 - kind: Group
-  name: "openshift.test-tenant-4dev.login.users"
+  name: "openshift.aaa-testdev1.login.users"
   apiGroup: rbac.authorization.k8s.io
 - kind: User
   name: system:serviceaccount:ucd-agent:ucd

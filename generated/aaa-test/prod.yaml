@@ -19,12 +19,12 @@ metadata:
 spec:
   hard:
     # NOTE: ResourceQuotas for each size are defined in vars/main.yml
-    requests.cpu: "1000m"
-    requests.memory: "8Gi"
-    limits.cpu: "2000m"
-    limits.memory: "16Gi"
-    pods: "30"
-    services: "10"
+    requests.cpu: "9000m"
+    requests.memory: "32Gi"
+    limits.cpu: "18000m"
+    limits.memory: "64Gi"
+    pods: "100"
+    services: "30"
 
 ---
 apiVersion: user.openshift.io/v1

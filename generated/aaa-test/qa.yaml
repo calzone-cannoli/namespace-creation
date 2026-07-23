@@ -19,11 +19,11 @@ metadata:
 spec:
   hard:
     # NOTE: ResourceQuotas for each size are defined in vars/main.yml
-    requests.cpu: "6000m"
-    requests.memory: "16Gi"
-    limits.cpu: "9000m"
-    limits.memory: "32Gi"
-    pods: "75"
+    requests.cpu: "3000m"
+    requests.memory: "12Gi"
+    limits.cpu: "6000m"
+    limits.memory: "24Gi"
+    pods: "50"
     services: "15"
 
 ---

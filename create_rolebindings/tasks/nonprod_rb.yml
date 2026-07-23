@@ -7,7 +7,7 @@
       kind: RoleBinding
       metadata:
         name: admin-rb
-        namespace: "{{ tenant_id }}-{{ item | lower }}"
+        namespace: "{{ item.name }}"
       subjects:
       - kind: Group
         name: openshift.devops.users
@@ -19,10 +19,10 @@
         name: openshift.dev.login.users
         apiGroup: rbac.authorization.k8s.io
       - kind: Group
-        name: "openshift.{{ tenant_id }}{{ item | lower }}.admin.users"
+        name: "openshift.{{ item.name }}.admin.users"
         apiGroup: rbac.authorization.k8s.io
       - kind: Group
-        name: "openshift.{{ tenant_id }}{{ item | lower }}.login.users"
+        name: "openshift.{{ item.name }}.login.users"
         apiGroup: rbac.authorization.k8s.io
       - kind: User
         name: system:serviceaccount:ucd-agent:ucd

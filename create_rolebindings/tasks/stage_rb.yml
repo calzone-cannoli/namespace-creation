@@ -7,7 +7,7 @@
       kind: RoleBinding
       metadata:
         name: admin-rb
-        namespace: "{{ tenant_id }}-{{ item | lower }}"
+        namespace: "{{ item.name }}"
       subjects:
       - kind: User
         name: system:serviceaccount:ucd-agent:ucd
@@ -30,7 +30,7 @@
       kind: RoleBinding
       metadata:
         name: view-rb
-        namespace: "{{ tenant_id }}-{{ item | lower }}"
+        namespace: "{{ item.name }}"
       subjects:
       - kind: Group
         name: openshift.devops.users
@@ -56,7 +56,7 @@
       kind: RoleBinding
       metadata:
         name: appsupport-rb
-        namespace: "{{ tenant_id }}-{{ item | lower }}"
+        namespace: "{{ item.name }}"
       subjects:
       - kind: Group
         name: "openshift.{{ tenant_id }}stage.appsupport.users"

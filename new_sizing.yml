@@ -1,0 +1,51 @@
+---
+- name: Create namespaces
+  hosts: localhost
+  gather_facts: false
+  vars: #Collected from Survey
+    tenant_env:
+      - env: Dev
+        size: Extra Small
+        name: aaa-test-dev
+      - env: Dev1
+        size: Small
+        name: aaa-test-dev1
+      - env: QA
+        size: Medium
+        name: aaa-test-qa
+      - env: Stage
+        size: Large
+        name: aaa-test-stage
+      - env: Prod
+        size: Extra Large
+        name: aaa-test-prod
+    tenant_id: "aaa-test"
+    nonprod_shirt_size: "Small"
+    prod_shirt_size: "Medium"
+  pre_tasks:
+    - name: Print namespaces
+      ansible.builtin.debug:
+        msg: "env {{ item.env }} has size {{ item.size }}"
+      loop: "{{ tenant_env }}"
+  roles:
+    - create_namespace
+  post_tasks:
+    # - name: ResourceQuotas
+    #   ansible.builtin.include_role: 
+    #     name: create_resourcequotas
+    #   loop: "{{ tenant_env }}"
+
+    # - name: RoleBindings
+    #   ansible.builtin.include_role: 
+    #     name: create_rolebindings
+    #   loop: "{{ tenant_env }}"
+
+    # - name: Groups
+    #   ansible.builtin.include_role: 
+    #     name: create_groups
+    #   loop: "{{ tenant_env }}"
+
+    - name: GitOps Sync
+      ansible.builtin.include_role:
+        name: create_gitops
+      loop: "{{ tenant_env }}"

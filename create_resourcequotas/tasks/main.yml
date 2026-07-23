@@ -1,14 +1,13 @@
 ---
 # Create ResourceQuotas
-- name: Set nonprod prefix
+- name: Set vars
   ansible.builtin.set_fact:
-    prefix: "{{ nonprod_shirt_size | lower | replace(' ', '_') }}_nonprod_"
-  when: item in ['Dev', 'QA']
-
-- name: Set prod prefix
-  ansible.builtin.set_fact:
-    prefix: "{{ prod_shirt_size | lower | replace(' ', '_') }}_prod_"
-  when: item in ['Stage', 'Prod']
+    cpu_req: "{{ item.size | lower | replace(' ', '_') }}_request_cpu"
+    mem_req: "{{ item.size | lower | replace(' ', '_') }}_request_memory"
+    cpu_lim: "{{ item.size | lower | replace(' ', '_') }}_limit_cpu"
+    mem_lim: "{{ item.size | lower | replace(' ', '_') }}_limit_memory"
+    pods: "{{ item.size | lower | replace(' ', '_') }}_pods"
+    servs: "{{ item.size | lower | replace(' ', '_') }}_services"
 
 - name: Create Resource Quota
   kubernetes.core.k8s:
@@ -18,13 +17,13 @@
       kind: ResourceQuota
       metadata:
         name: resource-quota
-        namespace: "{{ tenant_id }}-{{ item | lower }}"
+        namespace: "{{ item.name }}"
       spec:
         hard:
           # NOTE: ResourceQuotas for each size are defined in vars/main.yml
-          requests.cpu: "{{ vars[prefix ~ 'request_cpu'] }}"
-          requests.memory: "{{ vars[prefix ~ 'request_memory'] }}"
-          limits.cpu: "{{ vars[prefix ~ 'limit_cpu'] }}"
-          limits.memory: "{{ vars[prefix ~ 'limit_memory'] }}"
-          pods: "{{ vars[prefix ~ 'pods'] }}"
-          services: "{{ vars[prefix ~ 'services'] }}"
+          requests.cpu: "{{ vars[cpu_req] }}"
+          requests.memory: "{{ vars[mem_req] }}"
+          limits.cpu: "{{ vars[cpu_lim] }}"
+          limits.memory: "{{ vars[mem_lim] }}"
+          pods: "{{ vars[pods] }}"
+          services: "{{ vars[servs] }}"

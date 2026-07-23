@@ -2,12 +2,12 @@
 #### Create RoleBindings
 - name: Dev/QA RoleBindings
   ansible.builtin.import_tasks: nonprod_rb.yml
-  when: item in ['Dev', 'QA']
+  when: "'dev' in item.env | lower or 'qa' in item.env | lower"
       
 - name: Stage RoleBindings
   ansible.builtin.import_tasks: stage_rb.yml
-  when: item == 'Stage'
+  when: "'stage' in item.env | lower"
 
 - name: Prod RoleBindings
   ansible.builtin.import_tasks: prod_rb.yml
-  when: item == 'Prod'
+  when: "'prod' in item.env | lower"

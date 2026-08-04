@@ -1,8 +1,8 @@
 - name: Set vars
   ansible.builtin.set_fact:
-    ocp_instance: "{{ business_unit | lower }}_{{ creds[business_unit | lower][item.env | lower | regex_replace('\\d', '')] }}"
+    ocp_instance: "{{ business_unit | lower }}_{{ ocp_instances[business_unit | lower][item.env | lower | regex_replace('\\d', '')] }}"
 - name: Print namespaces
   ansible.builtin.debug:
     msg: 
     - "env {{ item.env }} has size {{ item.size }}"
-    - "{{ vars[ocp_instance] }}"
+    - "OCP URL: {{ vars[ocp_instance] }}"

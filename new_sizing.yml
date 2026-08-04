@@ -25,11 +25,8 @@
     nonprod_shirt_size: "Small"
     prod_shirt_size: "Medium"
   tasks:
-    - name: Print namespaces
-      ansible.builtin.debug:
-        msg: 
-        # - "env {{ item.env }} has size {{ item.size }}"
-        - "{{ vars[{{ business_unit | lower }}_{{ creds[business_unit | lower][item.env | lower | regex_replace('\\d', '')] }} }}]"
+    - name: Import the custom task file
+      ansible.builtin.include_tasks: get_instances.yml
       loop: "{{ tenant_env }}"
     # - name: Print credential
     #   ansible.builtin.debug:

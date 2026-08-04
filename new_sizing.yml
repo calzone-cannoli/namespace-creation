@@ -29,14 +29,14 @@
       ansible.builtin.debug:
         msg: 
         # - "env {{ item.env }} has size {{ item.size }}"
-        - "{{ vars[business_unit | lower }}_{{ creds[business_unit | lower][item.env | lower | regex_replace('\\d', '')]] }}"
+        - "{{ vars[{{ business_unit | lower }}_{{ creds[business_unit | lower][item.env | lower | regex_replace('\\d', '')] }} }}]"
       loop: "{{ tenant_env }}"
-    - name: Print credential
-      ansible.builtin.debug:
-        msg: 
-          - "{{ business_unit | lower }}"
-          - "{{ diagnostics_nonprod }}"
-          - "{{ diagnostics_prod }}"
+    # - name: Print credential
+    #   ansible.builtin.debug:
+    #     msg: 
+    #       - "{{ business_unit | lower }}"
+    #       - "{{ diagnostics_nonprod }}"
+    #       - "{{ diagnostics_prod }}"
   # roles:
   #   - create_namespace
   # post_tasks:

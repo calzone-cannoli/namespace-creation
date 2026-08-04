@@ -1,0 +1,12 @@
+---
+creds:
+  diagnostics:
+    dev: nonprod
+    qa: nonprod
+    stage: prod
+    prod: prod
+  services:
+    dev: nonprod
+    qa: nonprod
+    stage: prod
+    prod: prod

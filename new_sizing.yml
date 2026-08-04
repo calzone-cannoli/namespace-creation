@@ -14,12 +14,12 @@
       - env: QA
         size: Medium
         name: aaa-test-qa
-      # - env: Stage
-      #   size: Large
-      #   name: aaa-test-stage
-      # - env: Prod
-      #   size: Extra Large
-      #   name: aaa-test-prod
+      - env: Stage
+        size: Large
+        name: aaa-test-stage
+      - env: Prod
+        size: Extra Large
+        name: aaa-test-prod
     business_unit: Diagnostics
     tenant_id: "aaa-test"
     nonprod_shirt_size: "Small"

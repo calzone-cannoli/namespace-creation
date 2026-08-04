@@ -29,7 +29,7 @@
       ansible.builtin.debug:
         msg: 
         # - "env {{ item.env }} has size {{ item.size }}"
-        - "vars[{{ business_unit | lower }}_{{ creds[business_unit | lower][item.env | lower | regex_replace('\\d', '')] }}]"
+        - "{{ vars[business_unit | lower }}_{{ creds[business_unit | lower][item.env | lower | regex_replace('\\d', '')]] }}"
       loop: "{{ tenant_env }}"
     - name: Print credential
       ansible.builtin.debug:

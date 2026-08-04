@@ -12,12 +12,12 @@ creds:
     prod: prod
 ocp_instances:
   diagnostics:
-    dev: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
-    qa: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
-    stage: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
-    prod: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
+    dev: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
+    qa: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
+    stage: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
+    prod: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
   services:
-    dev: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
-    qa: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
-    stage: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
-    prod: https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443
+    dev: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
+    qa: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
+    stage: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"
+    prod: "https://api.cluster-5624v-1.dyn.redhatworkshops.io:6443"

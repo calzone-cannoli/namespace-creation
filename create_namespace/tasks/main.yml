@@ -2,6 +2,8 @@
 # Create namespace
 - name: Create namespace
   kubernetes.core.k8s:
+    host: "{{ ocp_instance }}"
+    api_key: "{{ vars[env_label] }}"
     name: "{{ item.name }}"
     api_version: v1
     kind: Namespace

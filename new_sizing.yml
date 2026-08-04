@@ -24,7 +24,7 @@
     tenant_id: "aaa-test"
     nonprod_shirt_size: "Small"
     prod_shirt_size: "Medium"
-  tasks:
+  pre_tasks:
     - name: Import the custom task file
       ansible.builtin.include_tasks: get_instance.yml
       loop: "{{ tenant_env }}"
@@ -34,8 +34,8 @@
     #       - "{{ business_unit | lower }}"
     #       - "{{ diagnostics_nonprod }}"
     #       - "{{ diagnostics_prod }}"
-  # roles:
-  #   - create_namespace
+  roles:
+    - create_namespace
   # post_tasks:
   #   - name: ResourceQuotas
   #     ansible.builtin.include_role: 

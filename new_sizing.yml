@@ -30,7 +30,8 @@
       loop: "{{ tenant_env }}"
     - name: Execute oc login command
       ansible.builtin.shell: >
-        oc login --token="{{ vars[env_label] }}"
+        oc login --token="{{ vars[env_label] }}" --server="{{ ocp_instance }}"
+      no_log: true
     # - name: Print credential
     #   ansible.builtin.debug:
     #     msg: 

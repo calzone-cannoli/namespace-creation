@@ -5,7 +5,7 @@
     # host: "{{ ocp_instance }}"
     # api_key: "{{ vars[env_label] }}"
     # validate_certs: false
-    name: "{{ item.namespace }}"
+    name: "{{ item.namespace | lower}}"
     api_version: v1
     kind: Namespace
     state: present

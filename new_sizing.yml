@@ -9,19 +9,14 @@
     - name: Import the custom task file
       ansible.builtin.include_tasks: get_instance.yml
       loop: "{{ namespaces }}"
-    # - name: Print credential
-    #   ansible.builtin.debug:
-    #     msg: 
-    #       - "{{ business_unit | lower }}"
-    #       - "{{ diagnostics_nonprod }}"
-    #       - "{{ diagnostics_prod }}"
+
   roles:
     - create_namespace
-  # post_tasks:
-  #   - name: ResourceQuotas
-  #     ansible.builtin.include_role: 
-  #       name: create_resourcequotas
-  #     loop: "{{ tenant_env }}"
+  post_tasks:
+    - name: ResourceQuotas
+      ansible.builtin.include_role: 
+        name: create_resourcequotas
+      loop: "{{ namespaces }}"
 
   #   - name: RoleBindings
   #     ansible.builtin.include_role: 

@@ -17,7 +17,7 @@
       kind: ResourceQuota
       metadata:
         name: resource-quota
-        namespace: "{{ item.namespace }}"
+        namespace: "{{ item.namespace | lower }}"
       spec:
         hard:
           # NOTE: ResourceQuotas for each size are defined in vars/main.yml

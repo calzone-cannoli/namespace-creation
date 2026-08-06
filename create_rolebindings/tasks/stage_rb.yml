@@ -7,7 +7,7 @@
       kind: RoleBinding
       metadata:
         name: admin-rb
-        namespace: "{{ item.name }}"
+        namespace: "{{ item.namespace | lower }}"
       subjects:
       - kind: User
         name: system:serviceaccount:ucd-agent:ucd
@@ -16,7 +16,7 @@
         name: openshift.staging.admin.users
         apiGroup: rbac.authorization.k8s.io
       - kind: Group
-        name: "openshift.{{ tenant_id }}stage.admin.users"
+        name: "openshift.{{ item.tenant_id }}stage.admin.users"
         apiGroup: rbac.authorization.k8s.io
       roleRef:
         kind: ClusterRole
@@ -30,7 +30,7 @@
       kind: RoleBinding
       metadata:
         name: view-rb
-        namespace: "{{ item.name }}"
+        namespace: "{{ item.namespace | lower }}"
       subjects:
       - kind: Group
         name: openshift.devops.users
@@ -42,7 +42,7 @@
         name: openshift.staging.login.users
         apiGroup: rbac.authorization.k8s.io
       - kind: Group
-        name: "openshift.{{ tenant_id }}stage.login.users"
+        name: "openshift.{{ item.tenant_id }}stage.login.users"
         apiGroup: rbac.authorization.k8s.io
       roleRef:
         kind: ClusterRole
@@ -56,10 +56,10 @@
       kind: RoleBinding
       metadata:
         name: appsupport-rb
-        namespace: "{{ item.name }}"
+        namespace: "{{ item.namespace | lower }}"
       subjects:
       - kind: Group
-        name: "openshift.{{ tenant_id }}stage.appsupport.users"
+        name: "openshift.{{ item.tenant_id }}stage.appsupport.users"
         apiGroup: rbac.authorization.k8s.io
       roleRef:
         kind: ClusterRole

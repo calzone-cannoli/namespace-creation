@@ -3,7 +3,8 @@
   hosts: localhost
   gather_facts: false
   vars_files: structure.yml
-  business_unit: Diagnostics
+  vars:
+    business_unit: Diagnostics
   pre_tasks:
     - name: Import the custom task file
       ansible.builtin.include_tasks: get_instance.yml

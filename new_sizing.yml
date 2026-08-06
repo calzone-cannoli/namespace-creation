@@ -23,10 +23,10 @@
         name: create_rolebindings
       loop: "{{ namespaces }}"
 
-  #   - name: Groups
-  #     ansible.builtin.include_role: 
-  #       name: create_groups
-  #     loop: "{{ namespaces }}"
+    - name: Groups
+      ansible.builtin.include_role: 
+        name: create_groups
+      loop: "{{ namespaces }}"
 
   #   - name: GitOps Sync
   #     ansible.builtin.include_role:

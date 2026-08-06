@@ -7,7 +7,7 @@
       apiVersion: user.openshift.io/v1
       kind: Group
       metadata:
-        name: "openshift.{{ tenant_id }}{{ item.env | lower }}.admin.users"
+        name: "openshift.{{ item.tenant_id }}{{ item.environment | lower }}.admin.users"
       users: null
 
 - name: Create User Group
@@ -17,7 +17,7 @@
       apiVersion: user.openshift.io/v1
       kind: Group
       metadata:
-        name: "openshift.{{ tenant_id }}{{ item.env | lower }}.login.users"
+        name: "openshift.{{ item.tenant_id }}{{ item.environment | lower }}.login.users"
       users: null
 
 - name: Create Appsupport Group
@@ -27,5 +27,5 @@
       apiVersion: user.openshift.io/v1
       kind: Group
       metadata:
-        name: "openshift.{{ tenant_id }}{{ item.env | lower }}.appsupport.users"
+        name: "openshift.{{ item.tenant_id }}{{ item.environment | lower }}.appsupport.users"
       users: null

@@ -8,6 +8,4 @@
         msg: "hello world!!"
     - name: Check vars
       ansible.builtin.debug:
-        msg:
-          - "{{ awx_webhook_payload }}"
-          - "{{ tower_webhook_payload }}"
+        var: tower_webhook_payload

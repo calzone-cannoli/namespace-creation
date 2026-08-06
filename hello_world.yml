@@ -8,4 +8,5 @@
         msg: "hello world!!"
     - name: Check vars
       ansible.builtin.debug:
-        var: namespaces
+        var: namespace
+      loop: namespaces

@@ -8,7 +8,7 @@
   pre_tasks:
     - name: Import the custom task file
       ansible.builtin.include_tasks: get_instance.yml
-      loop: "{{ tenant_env }}"
+      loop: "{{ namespaces }}"
     # - name: Print credential
     #   ansible.builtin.debug:
     #     msg: 

@@ -21,14 +21,14 @@
     - name: RoleBindings
       ansible.builtin.include_role: 
         name: create_rolebindings
-      loop: "{{ tenant_env }}"
+      loop: "{{ namespaces }}"
 
   #   - name: Groups
   #     ansible.builtin.include_role: 
   #       name: create_groups
-  #     loop: "{{ tenant_env }}"
+  #     loop: "{{ namespaces }}"
 
   #   - name: GitOps Sync
   #     ansible.builtin.include_role:
   #       name: create_gitops
-  #     loop: "{{ tenant_env }}"
+  #     loop: "{{ namespaces }}"

@@ -8,4 +8,4 @@
         msg: "hello world!!"
     - name: Check vars
       ansible.builtin.debug:
-        var: ritm
+        var: namespaces
